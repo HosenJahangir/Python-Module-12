@@ -1,4 +1,6 @@
 import random
+from datetime import datetime
+currentDateAndTime = datetime.now()
 
 
 class Bank:
@@ -12,10 +14,36 @@ class Bank:
         self.users = []
         self.admin = {}
 
+    def create_account(self, user):
+        self.users.append(user)
+
+    def delete_account(self, account_number):
+        for user in self.users:
+            if user.ac_num == account_number:
+                self.users.remove(user)
+                print('Account has been deleted')
+
+    def show_users(self):
+        for user in self.users:
+            print(f'{user.name}-{user.email}-{user.ac_num}')
+
+    def total_balance(self):
+        print(self.balance)
+
+    def total_loan_amount(self):
+        print(self.total_loan)
+
+    def offLoan_onLoan(self, status):
+        if status == 'on':
+            self.loan_feature = True
+        elif status == 'off':
+            self.loan_feature = False
+
 
 class User:
-    def __init__(self, name, email, address, account_type) -> None:
+    def __init__(self, name, password, email, address, account_type) -> None:
         self.name = name
+        self.password = password
         self.email = email
         self.address = address
         self.account_type = account_type
@@ -28,11 +56,7 @@ class User:
         self.balance += amount
 
     def withdraw(self, amount):
-        if amount <= self.balance:
-            self.balance -= amount
-
-        else:
-            print('Withdrawal amount exceeded')
+        self.balance -= amount
 
     def availabale_balance(self):
         print(self.balance)
@@ -46,13 +70,11 @@ class User:
             print('Number of laon exceded')
 
     def trans_amt(self, amount):
-
         self.balance -= amount
 
 
-class Admin:
-    def __init__(self, name) -> None:
-        self.name = name
-
-    def delete_user_account():
-        pass
+class Transaction:
+    def __init__(self, type, balance) -> None:
+        self.time = currentDateAndTime.strftime("%H:%M:%S")
+        self.description = type
+        self.balance = balance
